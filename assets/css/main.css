@@ -32,7 +32,7 @@
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
   --nav-color: #ffffff; /* The default color of the main navmenu links */
-  --nav-hover-color: #47b2e4; /* Applied to main navmenu links when they are hovered over or active */
+  --nav-hover-color: #0b0b0b; /* Applied to main navmenu links when they are hovered over or active */
   --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
   --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
   --nav-dropdown-color: #444444; /* Used for navigation links of the dropdown items in the navigation menu. */
@@ -690,7 +690,7 @@ h6 {
   top: calc(50% - 30px);
   left: calc(50% - 30px);
   border: 6px solid #ffffff;
-  border-color: var(--accent-color) transparent var(--accent-color) transparent;
+  border-color: #059652 transparent #059652 transparent;
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -822,6 +822,7 @@ section,
   padding-bottom: 20px;
   text-transform: uppercase;
   position: relative;
+  color: #0b0b09;
 }
 
 .section-title h2:before {
@@ -830,7 +831,7 @@ section,
   display: block;
   width: 160px;
   height: 1px;
-  background: color-mix(in srgb, var(--default-color), transparent 60%);
+  background: color-mix(in srgb, #059652, transparent 60%);
   left: 0;
   right: 0;
   bottom: 1px;
@@ -843,7 +844,7 @@ section,
   display: block;
   width: 60px;
   height: 3px;
-  background: var(--accent-color);
+  background: #0b0b09;
   left: 0;
   right: 0;
   bottom: 0;
@@ -998,11 +999,11 @@ section,
 .about ul i {
   font-size: 20px;
   padding-right: 4px;
-  color: var(--accent-color);
+  color: #059652;
 }
 
 .about .read-more {
-  color: var(--accent-color);
+  color: #0b0b09;
   font-family: var(--heading-font);
   font-weight: 500;
   font-size: 16px;
@@ -1013,7 +1014,7 @@ section,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--accent-color);
+  border: 2px solid #059652;
 }
 
 .about .read-more i {
@@ -1024,8 +1025,9 @@ section,
 }
 
 .about .read-more:hover {
-  background: var(--accent-color);
+  background: #0b0b09;
   color: var(--contrast-color);
+  border: 2px solid #0b0b09;
 }
 
 .about .read-more:hover i {
@@ -2087,3 +2089,7 @@ section,
 /*--------------------------------------------------------------
 # Starter Section Section
 --------------------------------------------------------------*/
+.login-btn {
+  color: #0b0b09;
+  background-color: #059652;
+}
