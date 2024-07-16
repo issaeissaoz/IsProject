@@ -1846,8 +1846,8 @@ section,
 .contact .info-wrap {
   background-color: var(--surface-color);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  border-top: 3px solid var(--accent-color);
-  border-bottom: 3px solid var(--accent-color);
+  border-top: 3px solid #059652;
+  border-bottom: 3px solid #059652;
   padding: 30px;
   height: 100%;
 }
@@ -1864,8 +1864,8 @@ section,
 
 .contact .info-item i {
   font-size: 20px;
-  color: var(--accent-color);
-  background: color-mix(in srgb, var(--accent-color), transparent 92%);
+  color: #059652;
+  background: color-mix(in srgb, #059652, transparent 92%);
   width: 44px;
   height: 44px;
   display: flex;
@@ -1881,16 +1881,18 @@ section,
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 5px;
+  color: #0b0b09;
 }
 
 .contact .info-item p {
   padding: 0;
   margin-bottom: 0;
   font-size: 14px;
+  color: #0b0b09;
 }
 
 .contact .info-item:hover i {
-  background: var(--accent-color);
+  background: #0b0b09;
   color: var(--contrast-color);
 }
 
@@ -1898,8 +1900,8 @@ section,
   background-color: var(--surface-color);
   height: 100%;
   padding: 30px;
-  border-top: 3px solid var(--accent-color);
-  border-bottom: 3px solid var(--accent-color);
+  border-top: 3px solid #059652;
+  border-bottom: 3px solid #059652;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -1928,7 +1930,7 @@ section,
 .contact .php-email-form input[type="text"]:focus,
 .contact .php-email-form input[type="email"]:focus,
 .contact .php-email-form textarea:focus {
-  border-color: var(--accent-color);
+  border-color: #059652;
 }
 
 .contact .php-email-form input[type="text"]::placeholder,
@@ -1939,7 +1941,7 @@ section,
 
 .contact .php-email-form button[type="submit"] {
   color: var(--contrast-color);
-  background: var(--accent-color);
+  background: #059652;
   border: 0;
   padding: 10px 30px;
   transition: 0.4s;
@@ -1947,7 +1949,7 @@ section,
 }
 
 .contact .php-email-form button[type="submit"]:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 25%);
+  background: color-mix(in srgb, #0b0b09, transparent 25%);
 }
 
 /*--------------------------------------------------------------

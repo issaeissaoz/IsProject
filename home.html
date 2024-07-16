@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar {
+        background-color: #059652;
+        padding: 10px 20px;
+      }
+      .navbar-brand {
+        padding-left: 10px;
+        color: #0b0b09 !important;
+      }
+      .navbar-nav .nav-item .nav-link {
+        padding-right: 10px;
+      }
+      .dropdown-menu .dropdown-item {
+        padding: 10px 20px;
+      }
+      .dropdown-menu .dropdown-item:hover {
+        background-color: #f1f1f1;
+      }
+      .sidebar {
+        background-color: #0b0b09;
+        height: 100vh;
+        width: 260px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s;
+      }
+      .sidebar.hidden {
+        margin-left: -260px;
+      }
+      .sidebar h5 {
+        margin-top: 20px;
+      }
+      .sidebar .nav-link {
+        color: white;
+        margin-bottom: 10px;
+        padding: 10px 15px;
+      }
+      .sidebar .nav-link:hover {
+        background-color: #2b2b2b;
+      }
+      .sidebar .nav-link.active {
+        background-color: #059652;
+      }
+      .sidebar hr {
+        border-top: 1px solid #2b2b2b;
+        width: 100%;
+      }
+      .content {
+        margin-left: 260px;
+        padding: 20px;
+        transition: all 0.3s;
+      }
+      .content.full-width {
+        margin-left: 0;
+      }
+      .toggle-btn {
+        margin-right: 10px;
+        background-color: #0b0b09;
+        color: white;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <button class="toggle-btn btn" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <a class="navbar-brand" href="#">Edible Rescue</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="userDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="fas fa-user"></i>
+            </a>
+            <div
+              class="dropdown-menu dropdown-menu-right"
+              aria-labelledby="userDropdown"
+            >
+              <a class="dropdown-item" href="#"
+                ><i class="fas fa-user-circle"></i> Profile</a
+              >
+              <a class="dropdown-item" href="#"
+                ><i class="fas fa-sign-out-alt"></i> Sign Out</a
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="d-flex">
+      <div class="sidebar d-flex flex-column p-3">
+        <h5 class="text-white">Menu</h5>
+        <div class="nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#"
+              ><i class="fas fa-hand-holding-heart"></i> Donate Food</a
+            >
+          </li>
+          <hr />
+          <li class="nav-item">
+            <a class="nav-link" href="#"
+              ><i class="fas fa-utensils"></i> Receive Food</a
+            >
+          </li>
+          <hr />
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-cog"></i> Settings</a>
+          </li>
+        </div>
+      </div>
+      <div class="content">
+        <h1>Welcome to the Edible Rescue Dashboard</h1>
+        <p>Use the menu to navigate through the dashboard features.</p>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      document
+        .getElementById("sidebarToggle")
+        .addEventListener("click", function () {
+          document.querySelector(".sidebar").classList.toggle("hidden");
+          document.querySelector(".content").classList.toggle("full-width");
+        });
+    </script>
+  </body>
+</html>
