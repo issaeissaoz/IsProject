@@ -12,12 +12,13 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="assets/css/home.css">
   </head>
   <body>
     <div class="container mt-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Edible Rescue Dashboard</h2>
-        <button class="btn btn-danger">
+        <button id="logout" class="btn btn-danger">
           <i class="fas fa-sign-out-alt"></i> Logout
         </button>
       </div>
@@ -69,13 +70,13 @@
           role="tabpanel"
           aria-labelledby="donate-tab"
         >
-          <form class="mt-4">
+          <form class="form mt-4" id="form">
             <div class="form-group">
               <label for="foodItem">Food Item</label>
               <input
                 type="text"
                 class="form-control"
-                id="foodItem"
+                id="foodname"
                 placeholder="Enter food item"
                 required
               />
@@ -95,7 +96,7 @@
               <input
                 type="date"
                 class="form-control"
-                id="expirationDate"
+                id="expirydate"
                 required
               />
             </div>
@@ -138,7 +139,7 @@
                 required
               />
             </div>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" id="submit" name="submit" class="btn btn-primary">
               Submit Donation
             </button>
           </form>
@@ -181,18 +182,19 @@
             <h4>User Information</h4>
             <div class="card mb-3">
               <div class="card-body">
-                <h5 class="card-title">John Doe</h5>
-                <p class="card-text"><strong>Email:</strong> john.doe@example.com</p>
-                <p class="card-text"><strong>Role:</strong> Donor</p>
-                <p class="card-text"><strong>Location:</strong> Nairobi, Kenya</p>
+              <strong>Email:</strong><p id="email" class="card-text"></p>
+              <strong>First Name</strong><p id="fname" class="card-text"></p>
+              <strong>Last Name</strong><p id="lname" class="card-text"></p>
               </div>
             </div>
         </div>
       </div>
     </div>
-
+    <div id="preloader"></div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
+  <script type="module" src="assets/js/home.js"></script>
+  <script type="module" src="assets/js/donateFood.js"></script>
 </html>

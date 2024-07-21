@@ -52,7 +52,7 @@
                   </div>
                 </div>
               </div>
-              <form action="#!">
+              <form action="#!" class="form" id="form">
                 <div class="row gy-3 gy-md-4 overflow-hidden">
                   <div class="col-12">
                     <label for="email" class="form-label"
@@ -84,14 +84,18 @@
                         class="form-control"
                         name="password"
                         id="password"
-                        value=""
                         required
                       />
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="d-grid">
-                      <button class="btn login-btn btn-lg" type="submit">
+                      <button
+                        class="btn login-btn btn-lg"
+                        name="submit"
+                        id="submit"
+                        type="submit"
+                      >
                         Log In <i class="bi bi-box-arrow-in-right"></i>
                       </button>
                     </div>
@@ -119,4 +123,5 @@
       </div>
     </div>
   </body>
+  <script type="module" src="assets/js/login.js"></script>
 </html>

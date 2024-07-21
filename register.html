@@ -52,7 +52,7 @@
                   </div>
                 </div>
               </div>
-              <form action="#!">
+              <form action="#!" id="form" class="form">
                 <div class="row gy-3 gy-md-4 overflow-hidden">
                   <div class="col-12">
                     <label for="fname" class="form-label"
@@ -118,14 +118,17 @@
                         class="form-control"
                         name="password"
                         id="password"
-                        value=""
                         required
                       />
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="d-grid">
-                      <button class="btn login-btn btn-lg" type="submit">
+                      <button
+                        class="btn login-btn btn-lg"
+                        id="submit"
+                        type="submit"
+                      >
                         Register <i class="bi bi-arrow-right-circle-fill"></i>
                       </button>
                     </div>
@@ -149,4 +152,5 @@
       </div>
     </div>
   </body>
+  <script type="module" src="assets/js/register.js"></script>
 </html>
