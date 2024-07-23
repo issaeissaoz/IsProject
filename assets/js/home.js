@@ -10,6 +10,15 @@ import {
   getDoc,
   setDoc,
 } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  child,
+  update,
+  remove,
+} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA5Y5BxjWIMFB7J9_Go_hESJGe62m0z07o",
@@ -25,6 +34,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const database = getDatabase(app);
 
 /**
  * Preloader
@@ -66,20 +76,22 @@ class UserSession {
   }
 
   async fetchUserData(userId) {
-    const docRef = doc(this.db, "users", userId);
-    try {
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const userData = docSnap.data();
-        document.getElementById("email").innerText = userData.email;
-        document.getElementById("fname").innerText = userData.firstName;
-        document.getElementById("lname").innerText = userData.lastName;
-      } else {
-        console.log("No document found matching the ID");
-      }
-    } catch (error) {
-      console.log("Error getting document:", error);
-    }
+    const docRef = ref(database);
+
+    get(child(docRef, "users/" + userId))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          document.getElementById("email").innerText = userData.email;
+          document.getElementById("fname").innerText = userData.firstName;
+          document.getElementById("lname").innerText = userData.lastName;
+        } else {
+          console.log("No data for User");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   checkStatus() {
@@ -104,7 +116,7 @@ const userSession = new UserSession(auth, db);
 
 class FoodItem {
   constructor(db, userSession) {
-    this.db = db;
+    this.db = getDatabase();
     this.userSession = userSession;
     this.init();
   }
@@ -166,7 +178,17 @@ class FoodItem {
     }
     return true;
   }
-
+  generateRandomId(length) {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+    }
+    return result;
+  }
   async handleSubmit() {
     const foodName = document.getElementById("foodname").value;
     const quantity = document.getElementById("quantity").value;
@@ -185,7 +207,8 @@ class FoodItem {
         location,
         description,
         price,
-        type
+        type,
+        status
       )
     ) {
       return;
@@ -194,36 +217,91 @@ class FoodItem {
     const user = this.userSession.auth.currentUser;
     if (user) {
       const loggedInUserId = user.uid;
-      const docRef = doc(
-        this.db,
-        "FoodItems",
-        loggedInUserId + "_" + new Date().toISOString()
-      );
-
-      const foodItemData = {
+      const randomId = this.generateRandomId(20);
+      set(ref(this.db, "FoodItems/" + randomId), {
+        foodItemId: randomId,
         uid: loggedInUserId,
-        foodName,
-        quantity,
-        description,
-        expiryDate,
-        location,
-        price,
-        type,
-        status,
-      };
-
-      try {
-        await setDoc(docRef, foodItemData);
-        alert("Food donation recorded successfully!");
-      } catch (error) {
-        console.error("Error adding document: ", error);
-        alert("Error recording food donation. Please try again.");
-      }
-    } else {
-      console.log("No user is signed in");
+        foodItemName: foodName,
+        quantity: quantity,
+        expiryDate: expiryDate,
+        location: location,
+        price: price,
+        type: type,
+        status: status == "available",
+      })
+        .then(() => {
+          alert("Donation Successful");
+        })
+        .catch((error) => {
+          alert("Error: Unsuccessful");
+          console.log(error);
+        });
     }
   }
 }
-
 // Instantiate the FoodItem class
 const foodItem = new FoodItem(db, userSession);
+
+class ViewFoodItems {
+  constructor(db, userSession) {
+    this.db = getDatabase();
+    this.userSession = userSession;
+    this.displayFoodItems();
+  }
+
+  async displayFoodItems() {
+    const foodListContainer = document.getElementById("foodList");
+    if (!foodListContainer) return;
+
+    foodListContainer.innerHTML = ""; // Clear the existing items
+    const docRef = ref(this.db);
+    const foodItemsSnapshot = await get(child(docRef, "FoodItems", "/"));
+
+    foodItemsSnapshot.forEach(async (snapshot) => {
+      const foodItem = snapshot.val();
+
+      // Get the donor details
+      const donorRef = ref(database);
+      const donorSnapshot = await get(child(donorRef, `users/${foodItem.uid}`));
+      let donorName;
+      if (donorSnapshot.exists()) {
+        donorName = donorSnapshot.val();
+        console.log(donorName.firstName);
+      }
+
+      const foodItemElement = document.createElement("div");
+      foodItemElement.classList.add("food-item");
+
+      foodItemElement.innerHTML = `
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">${foodItem.foodItemName}</h5>
+            <p class="card-text"><strong>Donor Name: ${donorName.firstName} ${
+        donorName.lastName
+      }</strong></p>
+            <p class="card-text"><strong>Status:</strong> ${
+              foodItem.status ? "Available" : "Unavailable"
+            }</p>
+            <p class="card-text"><strong>Location:</strong> ${
+              foodItem.location
+            }</p>
+            <p class="card-text"><strong>Price:</strong> KES ${
+              foodItem.price
+            }</p>
+            <p class="card-text"><strong>Expiration Date:</strong> ${
+              foodItem.expiryDate
+            }</p>
+            <button class="btn btn-primary">Request</button>
+          </div>
+        </div>
+      `;
+
+      foodListContainer.appendChild(foodItemElement);
+    });
+
+    // Add event listeners for request buttons if necessary
+  }
+}
+
+// Instantiate the ViewFoodItems class
+const viewFoodItems = new ViewFoodItems(db, userSession);

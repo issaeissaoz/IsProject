@@ -9,6 +9,16 @@ import {
   setDoc,
   doc,
 } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  child,
+  update,
+  remove,
+} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+
 import { FirebaseError } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 const firebaseConfig = {
   apiKey: "AIzaSyA5Y5BxjWIMFB7J9_Go_hESJGe62m0z07o",
@@ -22,6 +32,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore();
+const database = getDatabase();
 
 export default class User {
   constructor(firstName, lastName, email, password) {
@@ -45,9 +56,7 @@ export default class User {
         lastName: this.lastName,
         password: this.password,
       };
-
-      const docRef = doc(db, "users", user.uid);
-      await setDoc(docRef, userData);
+      await set(ref(database, "users/" + user.uid), userData);
       alert("Registration successfull", "Login Now");
       window.location.href = "login.html";
     } catch (error) {
