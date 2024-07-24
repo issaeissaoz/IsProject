@@ -255,49 +255,58 @@ class ViewFoodItems {
 
     foodListContainer.innerHTML = ""; // Clear the existing items
     const docRef = ref(this.db);
-    const foodItemsSnapshot = await get(child(docRef, "FoodItems", "/"));
+    const foodItemsSnapshot = await get(child(docRef, "FoodItems"));
 
-    foodItemsSnapshot.forEach(async (snapshot) => {
-      const foodItem = snapshot.val();
+    if (foodItemsSnapshot.exists()) {
+      const foodItems = foodItemsSnapshot.val();
 
-      // Get the donor details
-      const donorRef = ref(database);
-      const donorSnapshot = await get(child(donorRef, `users/${foodItem.uid}`));
-      let donorName;
-      if (donorSnapshot.exists()) {
-        donorName = donorSnapshot.val();
-        console.log(donorName.firstName);
+      for (const foodItemId in foodItems) {
+        if (foodItems.hasOwnProperty(foodItemId)) {
+          const foodItem = foodItems[foodItemId];
+
+          // Get the donor details
+          const donorRef = ref(this.db);
+          const donorSnapshot = await get(
+            child(donorRef, `users/${foodItem.uid}`)
+          );
+          let donorName = "Unknown Donor";
+          if (donorSnapshot.exists()) {
+            const donor = donorSnapshot.val();
+            donorName = `${donor.firstName} ${donor.lastName}`;
+          }
+
+          const foodItemElement = document.createElement("div");
+          foodItemElement.classList.add("food-item");
+
+          foodItemElement.innerHTML = `
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">${foodItem.foodItemName}</h5>
+                <p class="card-text"><strong>Donor Name:</strong> ${donorName}</p>
+                <p class="card-text"><strong>Status:</strong> ${
+                  foodItem.status ? "Available" : "Unavailable"
+                }</p>
+                <p class="card-text"><strong>Location:</strong> ${
+                  foodItem.location
+                }</p>
+                <p class="card-text"><strong>Price:</strong> KES ${
+                  foodItem.price
+                }</p>
+                <p class="card-text"><strong>Expiration Date:</strong> ${
+                  foodItem.expiryDate
+                }</p>
+                <button class="btn btn-primary">Request</button>
+              </div>
+            </div>
+          `;
+
+          foodListContainer.appendChild(foodItemElement);
+        }
       }
-
-      const foodItemElement = document.createElement("div");
-      foodItemElement.classList.add("food-item");
-
-      foodItemElement.innerHTML = `
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">${foodItem.foodItemName}</h5>
-            <p class="card-text"><strong>Donor Name: ${donorName.firstName} ${
-        donorName.lastName
-      }</strong></p>
-            <p class="card-text"><strong>Status:</strong> ${
-              foodItem.status ? "Available" : "Unavailable"
-            }</p>
-            <p class="card-text"><strong>Location:</strong> ${
-              foodItem.location
-            }</p>
-            <p class="card-text"><strong>Price:</strong> KES ${
-              foodItem.price
-            }</p>
-            <p class="card-text"><strong>Expiration Date:</strong> ${
-              foodItem.expiryDate
-            }</p>
-            <button class="btn btn-primary">Request</button>
-          </div>
-        </div>
-      `;
-
-      foodListContainer.appendChild(foodItemElement);
-    });
+    } else {
+      foodListContainer.innerHTML =
+        "<p>No food items available at the moment.</p>";
+    }
 
     // Add event listeners for request buttons if necessary
   }
