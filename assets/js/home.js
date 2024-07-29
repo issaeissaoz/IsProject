@@ -240,7 +240,7 @@ class FoodItem {
   }
 }
 // Instantiate the FoodItem class
-const foodItem = new FoodItem(db, userSession);
+const Fooditem = new FoodItem(db, userSession);
 
 class ViewFoodItems {
   constructor(db, userSession) {
@@ -275,6 +275,15 @@ class ViewFoodItems {
             donorName = `${donor.firstName} ${donor.lastName}`;
           }
 
+          // Check if the logged-in user is the donor
+          const user = this.userSession.auth.currentUser;
+          const isDonor = user.uid === foodItem.uid;
+          const buttonLabel = isDonor ? "Delete" : "Request";
+          const buttonClass = isDonor ? "btn btn-danger" : "btn btn-primary";
+          // const buttonAction = isDonor
+          //   ? this.deleteFoodItem.bind(this, snapshot.key)
+          //   : this.requestFoodItem.bind(this, snapshot.key);
+
           const foodItemElement = document.createElement("div");
           foodItemElement.classList.add("food-item");
 
@@ -295,7 +304,7 @@ class ViewFoodItems {
                 <p class="card-text"><strong>Expiration Date:</strong> ${
                   foodItem.expiryDate
                 }</p>
-                <button class="btn btn-primary">Request</button>
+                <button class="${buttonClass}">${buttonLabel}</button>
               </div>
             </div>
           `;
